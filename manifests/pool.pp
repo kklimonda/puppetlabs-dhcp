@@ -4,6 +4,7 @@ define dhcp::pool (
   $gateway     = '',
   $range       = '',
   $failover    = '',
+  $pools       = [],
   $options     = '',
   $parameters  = ''
 ) {

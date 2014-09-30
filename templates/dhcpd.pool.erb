@@ -2,6 +2,20 @@
 # <%= @name %> <%= @network %> <%= @mask %>
 #################################
 subnet <%= @network %> netmask <%= @mask %> {
+<% if @pools.is_a? Array -%>
+<%   @pools.each do |pool| -%>
+  pool
+  {
+    range <%= pool['range'] %>;
+    option routers <% pool['routers'].each do |router| -%><%= router %><% end -%>;
+    option subnet-mask <%= pool['subnet_mask'] %>;
+    option domain-name "<%= pool['domain_name'] %>";
+<%     pool['params'].each do |param| -%>
+    <%= param %>;
+<%     end -%>
+  }
+<%   end -%>
+<% end -%>
 <% if @range != '' or @failover != '' -%>
   pool
   {
