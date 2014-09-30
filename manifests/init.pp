@@ -164,11 +164,19 @@ class dhcp (
     order   => 01,
   }
 
+  # dhcpd.classes
+  concat { "${dhcp_dir}/dhcpd.classes": }
+  concat::fragment { 'dhcp-classes-header':
+    target  => "${dhcp_dir}/dhcpd.classes",
+    content => "# DHCP Classes\n",
+    order   => 01,
+  }
+
   service { $servicename:
     ensure    => running,
     enable    => true,
     hasstatus => true,
-    subscribe => [Concat["${dhcp_dir}/dhcpd.pools"], Concat["${dhcp_dir}/dhcpd.hosts"], File["${dhcp_dir}/dhcpd.conf"]],
+    subscribe => [Concat["${dhcp_dir}/dhcpd.pools"], Concat["${dhcp_dir}/dhcpd.hosts"], File["${dhcp_dir}/dhcpd.conf"], File["${dhcp_dir}/dhcpd.classes"]],
     require   => Package[$packagename],
   }
 
