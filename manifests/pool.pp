@@ -6,12 +6,18 @@ define dhcp::pool (
   $failover    = '',
   $pools       = [],
   $options     = '',
-  $parameters  = ''
+  $parameters  = '',
+  $extra       = undef,
 ) {
 
   include dhcp::params
 
   $dhcp_dir = $dhcp::params::dhcp_dir
+
+  $real_extra = $extra ? {
+    undef   => '',
+    default => template($extra),
+  }
 
   concat::fragment { "dhcp_pool_${name}":
     target  => "${dhcp_dir}/dhcpd.pools",

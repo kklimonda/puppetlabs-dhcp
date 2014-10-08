@@ -13,6 +13,9 @@ subnet <%= @network %> netmask <%= @mask %> {
 <%     pool['params'].each do |param| -%>
     <%= param %>;
 <%     end -%>
+<%     if @real_extra -%>
+    <%= @real_extra %>
+<%     end -%>
   }
 <%   end -%>
 <% end -%>
